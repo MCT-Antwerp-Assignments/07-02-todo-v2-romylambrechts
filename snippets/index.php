@@ -5,8 +5,22 @@ $db = dbConnect(
     user: 'root',
     pass: '',
     db: 'kdg-todo'
-)
-    ?>
+);
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $todo = $_POST['todo'];
+    
+    if (!empty($todo)) {
+        $text = htmlspecialchars($_POST['todo']);
+        $statement = $connection->prepare("INSERT INTO todos (text) VALUES (:text)");
+        $statement->bindParam(':text', $ext);
+        $statement->execute();
+    }
+}
+
+?>
+
+
 
 <?php include './snippets/layout/header.php'; ?>
 
