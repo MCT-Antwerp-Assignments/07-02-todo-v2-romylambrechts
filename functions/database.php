@@ -17,3 +17,21 @@ function addToDo(PDO $db, string $text): void
     $statement->bindParam(':text', $text);
     $statement->execute();
 }
+
+function getTodos(PDO $db): array
+{
+    $result = $db->query('SELECT * FROM todos');
+    return $result->fetchAll();
+}
+
+function getPendingCount(PDO $db): int
+{
+    $result = $db->query('SELECT count(*) FROM todos WHERE done = 0');
+    return $result->fetchColumn();
+}
+
+function getCompletedCount(PDO $db): int
+{
+    $result = $db->query('SELECT count(*) FROM todos WHERE done = 1');
+    return $result->fetchColumn();
+}
