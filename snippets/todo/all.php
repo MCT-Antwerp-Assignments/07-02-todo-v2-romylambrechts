@@ -6,16 +6,18 @@
                 <th class="text-left px-1 py-2 bg-orange-500 text-orange-100">Details</th>
                 <th class=" px-1 py-2 bg-orange-500 text-orange-100 rounded-tr-xl">Action</th>
             </tr>
-            <?php foreach ($todos as $todo): ?>
+            <?php foreach ($todos as $nr => $todo): ?>
 
             </thead>
             <tbody>
+                <?php if (count($todos) == 0): ?>
+                    <tr class="odd:bg-orange-100 even:bg-orange-50">
+                        <td class="text-center  px-1 py-2 text-orange-800" colspan="3">No Todos found. Add a few to begin.</td>
+                    </tr>
+                <?php endif; ?>
                 <tr class="odd:bg-orange-100 even:bg-orange-50">
-                    <td class="text-center  px-1 py-2 text-orange-800" colspan="3">No Todos found. Add a few to begin.</td>
-                </tr>
-                <tr class="odd:bg-orange-100 even:bg-orange-50">
-                    <td class="text-center  px-1 py-2 text-orange-800">1</td>
-                    <td class=" px-1 py-2 text-orange-800">My sample todo</td>
+                    <td class="text-center  px-1 py-2 text-orange-800"><?= $nr + 1; ?></td>
+                    <td class=" px-1 py-2 text-orange-800"><?php $todo['text']; ?></td>
                     <td class="text-center  px-1 py-2 text-orange-800 flex gap-3 justify-start">
                         <button class="text-orange-600">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
