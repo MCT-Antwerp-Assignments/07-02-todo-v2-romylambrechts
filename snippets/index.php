@@ -9,15 +9,14 @@ $db = dbConnect(
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $todo = $_POST['todo'];
-    
+
     if (!empty($todo)) {
-        $text = htmlspecialchars($_POST['todo']);
-        $statement = $connection->prepare("INSERT INTO todos (text) VALUES (:text)");
-        $statement->bindParam(':text', $ext);
-        $statement->execute();
+        addTodo($db, $_Post['todo']);
     }
 }
 
+$result = $db -> query('SELECT * FROM todos');
+$todos = $result -> fetchAll();
 ?>
 
 
@@ -31,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <div class="bg-gray-100 mt-5 p-5 rounded-xl shadow-lg text-gray-700">
     <h1 class="font-bold text-xl italic block mb-0 leading-none">Todo's</h1>
     <small class="block mb-5 mt-0 text-xs text-gray-500">0 Todos pending, 0 Completed.</small>
-    <?php include './snippets/todo/all.php'; ?>
+    <?php include './snippets/todo/all.php' ?>
 </div>
 
 <?php include './snippets/layout/footer.php'; ?>

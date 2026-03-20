@@ -9,3 +9,11 @@ function dbConnect(string $user, string $pass, string $db, string $host = '127.0
         echo "Connection failed: " . $e->getMessage();
     }
 }
+
+function addToDo(PDO $db, string $text): void
+{
+    $text = htmlspecialchars($text);
+    $statement = $db->prepare("INSERT INTO todos (text) VALUES (:text)");
+    $statement->bindParam(':text', $text);
+    $statement->execute();
+}
