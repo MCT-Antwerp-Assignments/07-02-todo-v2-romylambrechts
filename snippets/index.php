@@ -1,4 +1,5 @@
 <?php
+include './vendor/autoload.php';
 include './functions/database.php';
 
 $db = dbConnect(
@@ -22,8 +23,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         unCheckTodo($todo, $_POST['id']);
     }
 
-    if($_POST['delete']){
-        deleteTodo($db,$_POST['id'])
+    if ($_POST['delete']) {
+        deleteTodo($db, $_POST['id']);
     }
 }
 
