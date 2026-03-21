@@ -18,41 +18,54 @@ function addToDo(PDO $db, string $text): void
     $statement->execute();
 }
 
-function getTodos(PDO $db): array
+function getTodos(PDO $db, bool $withTrashed = false): array
 {
-    $result = $db->query('SELECT * FROM todos');
+    if ($withTrashed === true) {
+        $result = $db->query('SELECT * FROM todos');
+    }
+
+    if ($withTrashed === false) {
+        $result = $db->query('SELECT * FROM todos WHERE deleted_at IS NULL');
+    }
+
     return $result->fetchAll();
 }
 
 function getPendingCount(PDO $db): int
 {
-    $result = $db->query('SELECT count(*) FROM todos WHERE done = 0');
+    $result = $db->query('SELECT count(*) FROM todos WHERE done = 0 and deleted_at IS NULL');
     return $result->fetchColumn();
 }
 
 function getCompletedCount(PDO $db): int
 {
-    $result = $db->query('SELECT count(*) FROM todos WHERE done = 1');
+    $result = $db->query('SELECT count(*) FROM todos WHERE done = 1 and deleted_at IS NULL');
     return $result->fetchColumn();
 }
 
 function checkTodo(PDO $db, int $id): void
 {
-    $result = $db->prepare('UPDATE todos SET done = 1 WHERE id = :id');
+    $date = date('Y-m-d H:i:s');
+    $result = $db->prepare('UPDATE todos SET done = 1, updated_at = :updated_at WHERE id = :id');
     $result->bindParam('id', $id);
+    $result->bindParam('updated_at', $date);
     $result->execute();
 }
 
 function unCheckTodo(PDO $db, int $id): void
 {
-    $result = $db->prepare('UPDATE todos SET done = 0 WHERE id = :id');
+    $date = date('Y-m-d H:i:s');
+    $result = $db->prepare('UPDATE todos SET done = 0, updated_at = :updated_at WHERE id = :id');
     $result->bindParam('id', $id);
+    $result->bindParam('updated_at', $date);
     $result->execute();
 }
 
 function deleteTodo(PDO $db, int $id): void
 {
-    $result = $db->prepare('DELETE FROM todos WHERE id = :id');
+    $date = date('Y-m-d H:i:s');
+    $result = $db->prepare('UPDATE todos SET deleted_at = :deleted_at WHERE id =:id');
     $result->bindParam('id', $id);
+    $result->bindParam('deleted_at', $date);
     $result->execute();
 }
