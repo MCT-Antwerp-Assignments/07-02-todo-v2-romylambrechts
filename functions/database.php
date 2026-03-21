@@ -35,3 +35,17 @@ function getCompletedCount(PDO $db): int
     $result = $db->query('SELECT count(*) FROM todos WHERE done = 1');
     return $result->fetchColumn();
 }
+
+function checkTodo(PDO $db, int $id): void
+{
+    $result = $db->prepare('UPDATE todos SET done = 1 WHERE id = :id');
+    $result->bindParam('id', $id);
+    $result->execute();
+}
+
+function unCheckTodo(PDO $db, int $id): void
+{
+    $result = $db->prepare('UPDATE todos SET done = 0 WHERE id = :id');
+    $result->bindParam('id', $id);
+    $result->execute();
+}
