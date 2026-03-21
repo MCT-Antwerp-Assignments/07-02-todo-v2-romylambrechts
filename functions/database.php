@@ -49,3 +49,10 @@ function unCheckTodo(PDO $db, int $id): void
     $result->bindParam('id', $id);
     $result->execute();
 }
+
+function deleteTodo(PDO $db, int $id): void
+{
+    $result = $db->prepare('DELETE FROM todos WHERE id = :id');
+    $result->bindParam('id', $id);
+    $result->execute();
+}

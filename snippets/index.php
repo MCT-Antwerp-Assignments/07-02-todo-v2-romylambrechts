@@ -15,15 +15,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if ($_POST['check']) {
-        checkTodo($todo);
+        checkTodo($todo, $_POST['id']);
     }
 
-      if ($_POST['uncheck']) {
-        unCheckTodo($todo);
+    if ($_POST['uncheck']) {
+        unCheckTodo($todo, $_POST['id']);
+    }
+
+    if($_POST['delete']){
+        deleteTodo($db,$_POST['id'])
     }
 }
 
-$todos = getTodos($db, $_POST['id']);
+$todos = getTodos($db);
 ?>
 
 
