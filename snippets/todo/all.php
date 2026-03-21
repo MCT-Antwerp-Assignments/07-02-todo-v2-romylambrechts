@@ -17,7 +17,7 @@
                 <?php endif; ?>
                 <tr class="odd:bg-orange-100 even:bg-orange-50">
                     <td class="text-center  px-1 py-2 text-orange-800"><?= $nr + 1; ?></td>
-                    <td class=" px-1 py-2 text-orange-800"><?php $todo['text']; ?></td>
+                    <td class=" px-1 py-2 text-orange-800 <?php $todo ['done'] ? 'line-through' : ''; ?>"><?php $todo['text']; ?></td>
                     <td class="text-center  px-1 py-2 text-orange-800 flex gap-3 justify-start">
                         <form method="POST">
                             <input type="hidden" name="id" value="<?php $todo['id']; ?>" />
@@ -51,3 +51,4 @@
         </tbody>
     </table>
 </div>
+
