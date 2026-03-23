@@ -1,35 +1,35 @@
 <?php
 include './vendor/autoload.php';
-include './functions/database.php';
+require './classes/Todo.php';
 
-$db = dbConnect(
-    user: 'root',
-    pass: '',
-    db: 'kdg-todo'
-);
+
+$pdo = new PDO('mysql:host=127.0.0.1;dbname=kdg-todo;charset=utf8mb4', 'root', '');
+$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+
+$todoApp = new Todo($pdo);
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $todoText = $_POST['todo'] ?? null;
-
-    if (!empty($todoText)) {
-        addToDo($db, $todoText);
+    if (!empty($_POST['todo'])) {
+        $todoApp->add($_POST['todo']);
     }
 
     if (isset($_POST['check'])) {
-        checkTodo($db, $_POST['id']);
+        $todoApp->check($_POST['id']);
     }
 
     if (isset($_POST['uncheck'])) {
-        unCheckTodo($db, $_POST['id']);
+        $todoApp->uncheck($_POST['id']);
     }
 
     if (isset($_POST['delete'])) {
-        deleteTodo($db, $_POST['id']);
+        $todoApp->delete($_POST['id']);
     }
 }
 
-$todos = getTodos($db);
+
+$todos = $todoApp->getTodos();
 ?>
 
 <?php include './snippets/layout/header.php'; ?>
@@ -41,7 +41,7 @@ $todos = getTodos($db);
 <div class="bg-gray-100 mt-5 p-5 rounded-xl shadow-lg text-gray-700">
     <h1 class="font-bold text-xl italic">Todo's</h1>
     <small class="block mb-5 mt-0 text-xs text-gray-500">
-        <?= getPendingCount($db); ?> Todos pending <?= getCompletedCount($db); ?> Completed.
+        <?= $todoApp->getPendingCount(); ?>Todos pending<?= $todoApp->getCompletedCount(); ?> Completed.
     </small>
 
     <?php include './snippets/todo/all.php'; ?>
