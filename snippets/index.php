@@ -8,30 +8,29 @@ $db = dbConnect(
     db: 'kdg-todo'
 );
 
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $todo = $_POST['todo'];
+    $todoText = $_POST['todo'] ?? null;
 
-    if (!empty($todo)) {
-        addTodo($db, $_POST['todo']);
+    if (!empty($todoText)) {
+        addToDo($db, $todoText);
     }
 
-    if ($_POST['check']) {
-        checkTodo($todo, $_POST['id']);
+    if (isset($_POST['check'])) {
+        checkTodo($db, $_POST['id']);
     }
 
-    if ($_POST['uncheck']) {
-        unCheckTodo($todo, $_POST['id']);
+    if (isset($_POST['uncheck'])) {
+        unCheckTodo($db, $_POST['id']);
     }
 
-    if ($_POST['delete']) {
+    if (isset($_POST['delete'])) {
         deleteTodo($db, $_POST['id']);
     }
 }
 
 $todos = getTodos($db);
 ?>
-
-
 
 <?php include './snippets/layout/header.php'; ?>
 
@@ -40,10 +39,12 @@ $todos = getTodos($db);
 <?php include './snippets/todo/add.php'; ?>
 
 <div class="bg-gray-100 mt-5 p-5 rounded-xl shadow-lg text-gray-700">
-    <h1 class="font-bold text-xl italic block mb-0 leading-none">Todo's</h1>
-    <small class="block mb-5 mt-0 text-xs text-gray-500"><?= getPendingCount($db); ?> Todos pending,
-        <?= getCompletedCount($db); ?> Completed.</small>
-    <?php include './snippets/todo/all.php' ?>
+    <h1 class="font-bold text-xl italic">Todo's</h1>
+    <small class="block mb-5 mt-0 text-xs text-gray-500">
+        <?= getPendingCount($db); ?> Todos pending <?= getCompletedCount($db); ?> Completed.
+    </small>
+
+    <?php include './snippets/todo/all.php'; ?>
 </div>
 
 <?php include './snippets/layout/footer.php'; ?>

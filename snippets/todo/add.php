@@ -1,5 +1,5 @@
 <div>
-    <form action="#" method="POST" class="flex justify-center">
+    <form action="" method="POST" class="flex justify-center">
         <input type="text" name="todo" placeholder="Enter Todo"
             class="text-xl text-orange-800 placeholder-orange-400 py-2 px-5 bg-orange-100 rounded-l-full outline-orange-300">
         <button type="submit"
@@ -9,4 +9,5 @@
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
             </svg>
         </button>
-    </form>
+    </form>    </form>
+</div>
