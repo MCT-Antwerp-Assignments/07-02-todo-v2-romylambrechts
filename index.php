@@ -1,11 +1,10 @@
 <?php
-include './vendor/autoload.php';
 include './functions/database.php';
 
 $db = dbConnect(
     user: 'root',
     pass: '',
-    db: 'kdg-todo'
+    db: 'todov2'
 );
 
 
